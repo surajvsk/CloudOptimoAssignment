@@ -120,7 +120,7 @@
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <label style="font-size:15px">COVID Vaccination Certificate-1 Date</label>
-                                    <input type="text" class="form-control form-control-user rounded-0"
+                                    <input type="date" class="form-control form-control-user rounded-0"
                                         placeholder="COVID Vaccination Certificate-1 Date" name="COVIDVaccinationCertificate1date" id="COVIDVaccinationCertificate1date">
                                 </div>
                             </div>
@@ -196,6 +196,34 @@ $( document ).ready(function() {
     }
 
     console.log('data:::::::::::>>',data)
+
+    $.ajax({
+  type: "POST",
+  url: url,
+  data: {
+        firstName: $("#FirstName").val(),
+        lastName: $("#LastName").val(),
+        middleName: $("#MiddleName").val(),
+        phoneNo: $("#PhoneNo").val(),
+        password: $("#Password").val(),
+        confirmPassword: $("#confirmPassword").val(),
+        City: $("#City").val(),
+        State: $("#State").val(),
+        pincode: $("#pincode").val(),
+        bloodGruop: $("#bloodGruop").val(),
+        age: $("#Age").val(),
+        COVIDVaccinationCertificate1: $("#COVIDVaccinationCertificate1").val(),
+        COVIDVaccinationCertificate1date: $("#COVIDVaccinationCertificate1date").val(),
+		COVIDVaccinationCertificate2: $("#COVIDVaccinationCertificate2").val(),
+		COVIDVaccinationCertificate2date: $("#COVIDVaccinationCertificate2date").val(),
+		firstVaccinationCityName: $("#FirstVaccinationCityName").val(),
+		secondVaccinationCityName: $("#SecondVaccinationCityName").val()
+    },
+  success: function(response){
+
+  },
+  dataType: 'json'
+});
 
    })
 });
