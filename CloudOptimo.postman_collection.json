@@ -1,0 +1,38 @@
+{
+	"info": {
+		"_postman_id": "751dd451-f245-4b98-9797-8f1513d5e5ee",
+		"name": "CloudOptimo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8656723"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"firstName\":\"Suraj\",\"lastName\":\"Vishwakarma\",\"middleName\":\"Lalman\",\"phoneNo\":\"7666321805\",\"password\":\"pass@123\",\"confirmPassword\":\"pass@123\",\"City\":\"Pune\",\"State\":\"Maharashtra\",\"pincode\":\"400603\",\"address\":\"Thane Maharashtra\",\"bloodGruop\":\"AB+\",\"age\":\"26\",\"COVIDVaccinationCertificate1\":\"COVID1\",\"COVIDVaccinationCertificate1date\":\"2022-11-21\",\"COVIDVaccinationCertificate2\":\"COVID2\",\"COVIDVaccinationCertificate2date\":\"2022-11-23\",\"firstVaccinationCityName\":\"Thane\",\"secondVaccinationCityName\":\"Mumbai\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/register-user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"register-user"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
