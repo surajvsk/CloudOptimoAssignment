@@ -199,7 +199,7 @@ $( document ).ready(function() {
 
     $.ajax({
   type: "POST",
-  url: url,
+  url: "/register-user",
   data: {
         firstName: $("#FirstName").val(),
         lastName: $("#LastName").val(),
@@ -219,10 +219,13 @@ $( document ).ready(function() {
 		firstVaccinationCityName: $("#FirstVaccinationCityName").val(),
 		secondVaccinationCityName: $("#SecondVaccinationCityName").val()
     },
-  success: function(response){
-
-  },
-  dataType: 'json'
+    success: function(response){
+        console.log('RESPONSE::::::::::',response)
+    },
+    error:function(error){
+     console.log('ERROR::::::::::',error)
+    },
+    dataType: 'json'
 });
 
    })
