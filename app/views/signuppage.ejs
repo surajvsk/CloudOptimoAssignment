@@ -170,6 +170,7 @@
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
 
 $( document ).ready(function() {
@@ -210,6 +211,7 @@ $( document ).ready(function() {
         City: $("#City").val(),
         State: $("#State").val(),
         pincode: $("#pincode").val(),
+        address:$("#Address").val(),
         bloodGruop: $("#bloodGruop").val(),
         age: $("#Age").val(),
         COVIDVaccinationCertificate1: $("#COVIDVaccinationCertificate1").val(),
@@ -221,9 +223,40 @@ $( document ).ready(function() {
     },
     success: function(response){
         console.log('RESPONSE::::::::::',response)
+
+        if(response.status =="200"){
+            swal(response.message)
+.then((value) => {
+ window.location.ref= "/";
+});
+        }else{
+            swal(response.message)
+        }
+        
     },
     error:function(error){
-     console.log('ERROR::::::::::',error)
+     console.log('ERROR::::::::::',error.responseJSON.errors)
+     let erMsg=`<ul style="list-style:none;">`;
+     if(error.responseJSON.errors){
+        error.responseJSON.errors.forEach(function(erItem){
+            erMsg += `<li>${erItem.msg}</li>`
+        })
+        erMsg +=`</ul>`;
+        (function() {
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = erMsg;
+  swal({
+    title: "Error!",
+    content: wrapper,
+  });
+})();
+        // swal({
+        // title: "Error",
+        // text: erMsg,
+        // html: true, // add this if you want to show HTML
+        // type: "error" // type can be error/warning/success
+        // });
+     }
     },
     dataType: 'json'
 });
