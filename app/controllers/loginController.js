@@ -5,13 +5,14 @@ const {
 const Users = require('../modals/Users')
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-
+const {
+    redisClient
+  } = require("../../Utils/RedisClient");
 
 module.exports = {
 
     login: (req, res) => {
         console.log('res::::::::::::::::::::', req)
-        let redisDb = req.app.locals.redisdb
         let token = req.cookies.token;
         Users.findByuserName(req.body.username).then(dbresult => {
             if (dbresult.rows.length > 0) {
@@ -25,40 +26,37 @@ module.exports = {
                         user.middle_name = dbresult.rows[0].middle_name;
                         user.id = dbresult.rows[0].id;
                         user = JSON.stringify(user);
-                   
-                         redisDb.set(
+                        redisClient.client.set(
                             token,
                             user,
                             async function (err, response) {
-                                console.log('response::::::::::::>>', response)
-                                if (err) {
-                                    console.log('err::::::::::::>>', err)
-                                    res.json({
-                                        status: 500,
-                                        msg: "something went wrong...try again later"
-                                    })
-                                }
-                            }
-                        ).then(redisres => {
-                            console.log('redisres', redisres)
-                            if (redisres) {
-                                //redisDb.expire(token, process.env.REDIS_TTL);
-
-                                console.log('SUCCESS LOGIN')
-                                if (dbresult.rows[0].role == "USER") {
-                                 res.json({
-                                        status: 200,
-                                        redirect: "/user/user-dashboard"
-                                    })
+                              if (err) {
+                                console.log(err);
+                                res.status(500).json({sttaus:500,msg:"something went wrong...try again later"})
+                              } else {
+                                let resp = await response;
+                                console.log("resp redis write ==> ", resp);
+                                redisClient.client.expire(token, process.env.REDIS_TTL);
+                                console.log("role", dbresult.rows[0].role);
+                                if (typeof dbresult.rows[0].role == "undefined") {
+                                    res.status(500).json({sttaus:500,msg:"something went wrong...try again later"})
                                 } else {
-                                 res.json({
-                                        status: 200,
-                                        redirect: "/user/admin-dashboard"
-                                    })
+                                  console.log('SUCCESS LOGIN')
+                                  if (dbresult.rows[0].role == "USER") {
+                                   res.json({
+                                          status: 200,
+                                          redirect: "/user/user-dashboard"
+                                      })
+                                  } else {
+                                   res.json({
+                                          status: 200,
+                                          redirect: "/user/admin-dashboard"
+                                      })
+                                  }
                                 }
+                              }
                             }
-                        })
-
+                          );
                     } else {
                         //INVALID LOGIN INFO
                         res.json({
@@ -78,43 +76,33 @@ module.exports = {
     },
 
     logout: function (req, res) {
-        console.log('LOGOUT CALLL')
-        let redisDb = req.app.locals.redisdb
-        let token = req.cookies.token;
-        console.log('token::::::::::::', token)
-        console.log('redisDb::::::::::::', redisDb)
         if (typeof req.cookies.token == "undefined") {
-            res.clearCookie("token");
-        return   res.redirect("/")
+            res.redirect("/login")
         } else {
-            redisDb.get(req.cookies.token, async function (err, obj) {
-                if (err) {
+          redisClient.client.get(req.cookies.token, async function (err, obj) {
+            if (err) {
+              console.error(err);
+              res.redirect("/login")
+            } else {
+              res.clearCookie("token");
+              redisClient.client.del(
+                req.cookies.token,
+                async function (err, result) {
+                  if (err) {
                     console.error(err);
-                    res.redirect("/")
-                }
-            }).then(result => {
-                console.log('result::::::::>>>>><<<',result)
-                res.clearCookie("token");
-                redisDb.del(
-                    req.cookies.token,
-                    async function (err, _result) {
-                        if (err) {
-                            console.error(err);
-                            res.redirect("/")
-                        } else {
-                            let response = await _result;
-                            if (response == 1) {
-                                res.redirect("/")
-                            } else {
-                                console.log("error in logout");
-                            }
-                        }
+                  res.redirect("/login")
+                  } else {
+                    let response = await result;
+                    if (response == 1) {
+                        res.redirect("/login")
+                    } else {
+                      console.log("error in logout");
                     }
-                ).then(deleted=>{
-                    res.clearCookie("token");
-                    res.redirect("/")
-                })
-            });
+                  }
+                }
+              );
+            }
+          });
         }
-    },
+      }
 }
