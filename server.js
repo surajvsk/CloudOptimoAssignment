@@ -1,23 +1,17 @@
 const express = require('express')
 const path = require('path')
 const app = express()
-const port = 3000
+const port = 5000
 const redis = require('redis');
 const cookieParser = require("cookie-parser");
 const {
   v4: uuidv4
 } = require("uuid");
-// const {
-//   redisClient
-// } = require("./config/RedisClient");
-
 const client = redis.createClient();
 
 
 const indexRouter = require("./app/routers/indexRouter")
 const userRouter = require("./app/routers/userRouter")
-
-
 
 app.set('views', path.join(__dirname, './app/views'))
 app.use(express.static(path.join(__dirname, "public")));
@@ -63,8 +57,6 @@ app.use(function (req, res, next) {
   .catch((err) => {
     console.log('err happened' + err);
   });
-
-
   app.listen(port, function(err){
     if (err) console.log("Error in server setup")
     console.log("Server listening on Port", port);

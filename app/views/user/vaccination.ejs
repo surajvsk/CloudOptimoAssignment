@@ -130,41 +130,41 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Middle Name</th>
-                                                <th>Pincode</th>
-                                                <th>Phone No</th>
-                                                <th>City</th>
-                                                <th>State</th>
-                                                <th>Address</th>
+                                                <th>Blood Group</th>
+                                                <th>Age</th>
+                                                <th>COVID Vaccination Certificate-1 ID</th>
+                                                <th>COVID Vaccination Certificate-1 Date</th>
+                                                <th>COVID Vaccination Certificate-2 ID</th>
+                                                <th>COVID Vaccination Certificate-2 Date</th>
+                                                <th>First Vaccination City Name</th>
+                                                <th>Second Vaccination City Name</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Middle Name</th>
-                                                <th>Pincode</th>
-                                                <th>Phone No</th>
-                                                <th>City</th>
-                                                <th>State</th>
-                                                <th>Address</th>
+                                                <th>Blood Group</th>
+                                                <th>Age</th>
+                                                <th>COVID Vaccination Certificate-1 ID</th>
+                                                <th>COVID Vaccination Certificate-1 Date</th>
+                                                <th>COVID Vaccination Certificate-2 ID</th>
+                                                <th>COVID Vaccination Certificate-2 Date</th>
+                                                <th>First Vaccination City Name</th>
+                                                <th>Second Vaccination City Name</th>
                                             </tr>
                                         </tfoot>
                                         
                                         <tbody>
                                             
-                                                <% for(let user of userinfo){%>
+                                                <% for(let user of vaccination){%>
                                                     <tr>
-                                                    <td><%- user.first_name%></td>
-                                                    <td><%- user.last_name%></td>
-                                                    <td><%- user.middle_name%></td>
-                                                    <td><%- user.pincode%></td>
-                                                    <td><%- user.phone_no%></td>
-                                                    <td><%- user.city%></td>
-                                                    <td><%- user.state%></td>
-                                                    <td><%- user.address%></td>
+                                                    <td><%- user.blood_gruop%></td>
+                                                    <td><%- user.age%></td>
+                                                    <td><%- user.vc_1%></td>
+                                                    <td><%- user.vc_1_date%></td>
+                                                    <td><%- user.vc_2%></td>
+                                                    <td><%- user.vc_2_date%></td>
+                                                    <td><%- user.vc_1_city%></td>
+                                                    <td><%- user.vc_2_city%></td>
                                                 </tr>
                                                 <%}%>
                                             

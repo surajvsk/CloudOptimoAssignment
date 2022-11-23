@@ -110,7 +110,8 @@ SELECT  '{"firstName":"Suraj","lastName":"Vishwakarma","middleName":"Lalman","ph
 select first_name, last_name, middle_name, phone_no, password, city, state, pincode, address, role from users
 
 
-
+select blood_gruop, age, vc_1, vc_1_date, 
+vc_2, vc_2_date, vc_1_city, vc_2_city, user_id from users_info where user_id =
 
 	
 	
