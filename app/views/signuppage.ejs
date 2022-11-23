@@ -224,13 +224,12 @@ $( document ).ready(function() {
     success: function(response){
         console.log('RESPONSE::::::::::',response)
 
-        if(response.status =="200"){
-            swal(response.message)
-.then((value) => {
- window.location.ref= "/";
-});
+        if(response.data.status =="200"){
+            swal(response.data.message).then(value => {
+                window.location.href= "/";
+            });
         }else{
-            swal(response.message)
+            swal(response.data.message)
         }
         
     },
