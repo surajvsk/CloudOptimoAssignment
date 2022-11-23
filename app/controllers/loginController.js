@@ -71,9 +71,39 @@ module.exports = {
                 })
             }
 
-
         })
+    },
 
-
-    }
+    logout: function (req, res) {
+        let redisDb = req.app.locals.redisdb
+        let token = req.cookies.token;
+        if (typeof req.cookies.token == "undefined") {
+          res.status(500).json({status:500, redirect:"/login"})
+        } else {
+            redisDb.get(req.cookies.token, async function (err, obj) {
+            if (err) {
+              console.error(err);
+              res.status(500).json({status:500, redirect:"/login"})
+            }
+          }).then(result=>{
+            res.clearCookie("token");
+            redisDb.del(
+              req.cookies.token,
+              async function (err, result) {
+                if (err) {
+                  console.error(err);
+                  res.status(500).json({status:500, redirect:"/login"})
+                } else {
+                  let response = await result;
+                  if (response == 1) {
+                      res.status(500).json({status:500, redirect:"/login"})
+                  } else {
+                    console.log("error in logout");
+                  }
+                }
+              }
+            );
+          });
+        }
+      },
 }
