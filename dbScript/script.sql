@@ -100,15 +100,3 @@ values('ADMIN','Vishwakarma','Lalman','7666321810','$2b$10$H5umiXxikDnJBXUE2XVvA
 --select insert_user('{"firstName":"Suraj","lastName":"Vishwakarma","middleName":"Lalman","phoneNo":"7666321809","password":"pass@123","confirmPassword":"pass@123","City":"Pune","State":"Maharashtra","pincode":"400603","address":"Thane Maharashtra","bloodGruop":"AB+","age":"26","COVIDVaccinationCertificate1":"COVID1","COVIDVaccinationCertificate1date":"2022-11-21","COVIDVaccinationCertificate2":"COVID2","COVIDVaccinationCertificate2date":"2022-11-23","firstVaccinationCityName":"Thane","secondVaccinationCityName":"Mumbai"}')
 
 
-select id, first_name, last_name, middle_name, phone_no, password, city, state, 
-pincode, address, role, create_at from users where id <> 2
-and create_at between '2022-11-23T01:17'::TIMESTAMP and '2022-11-24T23:17'::TIMESTAMP;
-
-
-select blood_gruop, age, vc_1, vc_1_date, 
-vc_2, vc_2_date, vc_1_city, vc_2_city, user_id from users_info where id <> 2
-	
-
-
-
-select ui.blood_gruop, ui.age, ui.vc_1, ui.vc_1_date, ui.vc_2, ui.vc_2_date, ui.vc_1_city, ui.vc_2_city, ui.user_id from users_info ui where id <> 2
