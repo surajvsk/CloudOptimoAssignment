@@ -16,7 +16,7 @@ module.exports = class Users {
 
   static findByuserName(username) {
     const statement = {
-      text: `select firstName, lastName, middleName, phone_no, password, city, state, pincode, address, role from users where phone_no = $1;`,
+      text: `select first_name, last_name, middle_name, phone_no, password, city, state, pincode, address, role from users where phone_no = $1;`,
       values: [username],
     };
     return pool.query(statement);

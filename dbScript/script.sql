@@ -1,10 +1,10 @@
 -- create database cloud_optimo;
 drop table if exists users;
 create table users(
-	id serial primary key not null,
-	firstName varchar(200),
-    lastName varchar(200),
-    middleName varchar(200),
+	id int GENERATED ALWAYS AS IDENTITY  primary key not null,
+	first_name varchar(200),
+    last_name varchar(200),
+    middle_name varchar(200),
     phone_no varchar(200) unique not null,
     password varchar(200),
     city varchar(200),
@@ -18,15 +18,15 @@ create table users(
 --select * from users_info
 drop table if exists users_info;
 create table users_info(
-	id serial primary key not null,
+	id int GENERATED ALWAYS AS IDENTITY  primary key not null,
     blood_gruop varchar(5),
     age int,
-    COVIDVaccinationCertificate1 varchar(200),
-    COVIDVaccinationCertificate1date varchar(200),
-    COVIDVaccinationCertificate2 varchar(200),
-    COVIDVaccinationCertificate2date varchar(200),
-    firstVaccinationCityName varchar(200),
-    secondVaccinationCityName varchar(200),
+    vc_1 varchar(200),
+    vc_1_date varchar(200),
+    vc_2 varchar(200),
+    vc_2_date varchar(200),
+    vc_1_city varchar(200),
+    vc_2_city varchar(200),
 	user_id int,
 	foreign key(user_id) references users(id)
 );
@@ -45,7 +45,6 @@ CREATE OR REPLACE FUNCTION insert_user(
     
     DECLARE
     output_result JSONB;
-    output_json JSONB;
 	user_count int;
 	inserted_user_id int;
     BEGIN
@@ -55,7 +54,7 @@ select count(*) into user_count from users where phone_no = input_json->>'phoneN
 
 if user_count = 0 then
 
-insert into users(firstName, lastName, middleName, phone_no, password, city, state, pincode, address)
+insert into users(first_name, last_name, middle_name, phone_no, password, city, state, pincode, address)
 values( 
 input_json->>'firstName', 
 input_json->>'lastName', 
@@ -67,8 +66,8 @@ input_json->>'State',
 input_json->>'pincode', 
 input_json->>'address') returning id into inserted_user_id;
 
-insert into users_info(blood_gruop, age, COVIDVaccinationCertificate1, COVIDVaccinationCertificate1date, 
-COVIDVaccinationCertificate2, COVIDVaccinationCertificate2date, firstVaccinationCityName, secondVaccinationCityName, user_id)
+insert into users_info(blood_gruop, age, vc_1, vc_1_date, 
+vc_2, vc_2_date, vc_1_city, vc_2_city, user_id)
 values (input_json->>'bloodGruop',
 (input_json->>'age')::int,
 input_json->>'COVIDVaccinationCertificate1',
@@ -97,7 +96,7 @@ insert into users(firstName, lastName, middleName, phone_no, password, city, sta
 values('Suraj','Vishwakarma','Lalman','7666321805','$2b$10$H5umiXxikDnJBXUE2XVvAegrlVEQgaFFMP/cErM.C4kyxTWEjUAAa','Thane','Maharashtra','4000603','Thane','ADMIN');
 --select * from temp_user_master
 	--select count(u.id)  from temp_user_master tum join users u on tum.phoneno = u.phoneno;
---select insert_user('{"firstName":"Suraj","lastName":"Vishwakarma","middleName":"Lalman","phoneNo":"7666321805","password":"pass@123","confirmPassword":"pass@123","City":"Pune","State":"Maharashtra","pincode":"400603","address":"Thane Maharashtra","bloodGruop":"AB+","age":"26","COVIDVaccinationCertificate1":"COVID1","COVIDVaccinationCertificate1date":"2022-11-21","COVIDVaccinationCertificate2":"COVID2","COVIDVaccinationCertificate2date":"2022-11-23","firstVaccinationCityName":"Thane","secondVaccinationCityName":"Mumbai"}')
+--select insert_user('{"firstName":"Suraj","lastName":"Vishwakarma","middleName":"Lalman","phoneNo":"7666321809","password":"pass@123","confirmPassword":"pass@123","City":"Pune","State":"Maharashtra","pincode":"400603","address":"Thane Maharashtra","bloodGruop":"AB+","age":"26","COVIDVaccinationCertificate1":"COVID1","COVIDVaccinationCertificate1date":"2022-11-21","COVIDVaccinationCertificate2":"COVID2","COVIDVaccinationCertificate2date":"2022-11-23","firstVaccinationCityName":"Thane","secondVaccinationCityName":"Mumbai"}')
 
 
 
@@ -108,7 +107,7 @@ SELECT  '{"firstName":"Suraj","lastName":"Vishwakarma","middleName":"Lalman","ph
 
 
 
-select firstName, lastName, middleName, phone_no, password, city, state, pincode, address, role from users
+select first_name, last_name, middle_name, phone_no, password, city, state, pincode, address, role from users
 
 
 
