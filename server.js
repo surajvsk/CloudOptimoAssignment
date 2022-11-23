@@ -50,21 +50,20 @@ const indexRouter = require("./app/routers/indexRouter")
 const userRouter = require("./app/routers/userRouter")
 app.use(indexRouter)
 app.use('/user', middleware.verify, userRouter)
-
 app.set('views', path.join(__dirname, './app/views'))
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 
 
-
-
 (async function () {
   console.clear();
-  await redisClient.connect(
+  let redsCli = await redisClient.connect(
     process.env.REDIS_PORT,
     process.env.REDIS_HOST,
     process.env.REDIS_PASS
   );
+
+  console.log('redsCli:::::::::::::::::::',redsCli)
   app.listen(port, function (err) {
     if (err) console.log("Error in server setup")
     console.log("Server listening on Port", port);

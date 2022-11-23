@@ -107,74 +107,85 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Get Report Details</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Get Blood Group Report Details By</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="bypincode">
+                                        <label class="form-check-label" for="inlineRadio1">By Pincode</label>
+                                      </div>
+                                      <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="bycertificate">
+                                        <label class="form-check-label" for="inlineRadio2">By Certificate</label>
+                                      </div>
                                     <div class="form-group row">
-                                        <div class="col-sm-3 mb-3 mb-sm-0">
-                                            <label>Select City</label>
-                                            <select name="City" id="City" class="form-control rounded-0">
-                                                <option value="" >Choose City</option>
-                                                <option value="Pune">Pune</option>
-                                                <option value="Nasik">Nasik</option>
+                                        <div class="col-sm-3 mb-3 mb-sm-0 pincode-div d-none">
+                                            <label>Select Pincode</label>
+                                            <select name="Pincode" id="Pincode" class="form-control rounded-0">
+                                                <option value="" >Choose Pincode</option>
+                                               <%for(let pins of pincode_list){%>
+                                                <option value="<%-pins.pincode%>" ><%-pins.pincode%></option>
+                                                <%}%>
                                             </select>
                                         </div>
-                                        <div class="col-sm-3 mb-3 mb-sm-0">
-                                            <label>Select State</label>
-                                            <select name="State" id="State" class="form-control rounded-0">
-                                                <option value="">Choose State</option>
-                                                <option value="Maharashtra">Maharashtra</option>
-                                                <option value="Karnataka">Karnataka</option>
+                                        <div class="col-sm-3 mb-3 mb-sm-0 Vaccination-cert d-none">
+                                            <label>Vaccination  cert-1</label>
+                                            <select name="Vaccination-cert-1" id="Vaccination-cert-1" class="form-control rounded-0">
+                                                <option value="">Vaccination  cert-1</option>
+                                                <%for(let certi1 of findVC1Certificate){%>
+                                                    <option value="<%-certi1.vc_1%>" ><%-certi1.vc_1%></option>
+                                                <%}%>
                                             </select>
                                         </div>
-                                        <div class="col-sm-3 mb-3 mb-sm-0">
-                                            <label>Select Start Date</label>
-                                            <input type="datetime-local" class="form-control rounded-0" id="start_date">
+
+                                        <div class="col-sm-3 mb-3 mb-sm-0 Vaccination-cert d-none">
+                                            <label>Vaccination  cert-2</label>
+                                            <select name="Vaccination-cert-2" id="Vaccination-cert-2" class="form-control rounded-0">
+                                                <option value="">Vaccination  cert-2</option>
+                                                <%for(let certi2 of findVC2Certificate){%>
+                                                    <option value="<%-certi2.vc_2%>" ><%-certi2.vc_2%></option>
+                                                <%}%>
+                                            </select>
                                         </div>
-                                        <div class="col-sm-3 mb-3 mb-sm-0">
-                                            <label>Select End Date</label>
-                                            <input type="datetime-local" class="form-control rounded-0" id="end_date">
-                                        </div>
-                                        
                                     </div>
 
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Middle Name</th>
-                                                <th>Pincode</th>
-                                                <th>Phone No</th>
-                                                <th>City</th>
-                                                <th>State</th>
-                                                <th>Address</th>
+                                                <th>Blood Group</th>
+                                                <th>Age</th>
+                                                <th>Certificate 1</th>
+                                                <th>Certificate 1 Date</th>
+                                                <th>Certificate 2</th>
+                                                <th>Certificate 2 Date</th>
+                                                <th>Vaccination City 1</th>
+                                                <th>Vaccination City 2</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Middle Name</th>
-                                                <th>Pincode</th>
-                                                <th>Phone No</th>
-                                                <th>City</th>
-                                                <th>State</th>
-                                                <th>Address</th>
+                                                <th>Blood Group</th>
+                                                <th>Age</th>
+                                                <th>Certificate 1</th>
+                                                <th>Certificate 1 Date</th>
+                                                <th>Certificate 2</th>
+                                                <th>Certificate 2 Date</th>
+                                                <th>Vaccination City 1</th>
+                                                <th>Vaccination City 2</th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                                <% for(let user of userinfo){%>
+                                                <% for(let user of user_list){%>
                                                     <tr>
-                                                    <td><%- user.first_name%></td>
-                                                    <td><%- user.last_name%></td>
-                                                    <td><%- user.middle_name%></td>
-                                                    <td><%- user.pincode%></td>
-                                                    <td><%- user.phone_no%></td>
-                                                    <td><%- user.city%></td>
-                                                    <td><%- user.state%></td>
-                                                    <td><%- user.address%></td>
+                                                    <td><%- user.blood_gruop%></td>
+                                                    <td><%- user.age%></td>
+                                                    <td><%- user.vc_1%></td>
+                                                    <td><%- user.vc_1_date%></td>
+                                                    <td><%- user.vc_2%></td>
+                                                    <td><%- user.vc_2_date%></td>
+                                                    <td><%- user.vc_1_city%></td>
+                                                    <td><%- user.vc_2_city%></td>
                                                 </tr>
                                                 <%}%>
                                             
@@ -215,14 +226,26 @@
     <script src="/js/demo/datatables-demo.js"></script>
     <script>
         $(document).ready(function(){
-            $("#City").on('change',function(){
-                let city = $(this).val()
-                console.log('city::::::',city)
+            $('input[type=radio][name=inlineRadioOptions]').change(function() {
+                if (this.value == 'bypincode') {
+                    $(".pincode-div").removeClass('d-none')
+                    $(".Vaccination-cert").addClass('d-none')
+                }
+                else if (this.value == 'bycertificate') {
+                    $(".pincode-div").addClass('d-none')
+                    $(".Vaccination-cert").removeClass('d-none')
+                }
+            });
+
+
+            $("#Pincode").on('change',function(){
+                let pincode = $(this).val()
+                console.log('city::::::',pincode)
                 $.ajax({
                     type: "POST",
-                    url: "/user/find-by-city-name",
+                    url: "/user/find-by-pincode",
                     data: {
-                        city: city
+                        pincode: pincode
                     },
                     success: function(response){
                         console.log('response:::::::::',response)
@@ -232,15 +255,14 @@
                     });
             })
 
-            //FIND BY STATE
-            $("#State").on('change',function(){
-                let state = $(this).val()
-                console.log('city::::::',state)
+            //FIND BY VC-1
+            $("#Vaccination-cert-1").on('change',function(){
+                let cert1 = $(this).val()
                 $.ajax({
                     type: "POST",
-                    url: "/user/find-by-state-name",
+                    url: "/user/find-by-vc-1",
                     data: {
-                        state: state
+                        cert: cert1
                     },
                     success: function(response){
                         console.log('response:::::::::',response)
@@ -250,17 +272,14 @@
                     });
             })
 
-            //FIND BY STATE DATE END DATE
-            $("#end_date").on('change',function(){
-                let start_date = $("#start_date").val()
-                let end_date = $(this).val()
-                console.log('Date::::::',start_date, end_date)
+            //FIND BY VC-2
+            $("#Vaccination-cert-2").on('change',function(){
+                let cert1 = $(this).val()
                 $.ajax({
                     type: "POST",
-                    url: "/user/find-by-date-name",
+                    url: "/user/find-by-vc-2",
                     data: {
-                        start_date: start_date,
-                        end_date: end_date
+                        cert: cert1
                     },
                     success: function(response){
                         console.log('response:::::::::',response)
@@ -270,21 +289,21 @@
                     });
             })
 
-
+           
             function AjaxTable(data_list){
                 let table =  ``
                 if(data_list.length > 0){
                     data_list.forEach(element => {
-                        table +=  `<tr>
-                            <td>${element.first_name}</td>
-                            <td>${element.last_name}</td>
-                            <td>${element.middle_name}</td>
-                            <td>${element.pincode}</td>
-                            <td>${element.phone_no}</td>
-                            <td>${element.city}</td>
-                            <td>${element.state}</td>
-                            <td>${element.address}</td>
-                            </tr>`
+                        table += `<tr>
+                                    <td>${element.blood_gruop}</td>
+                                    <td>${element.age}</td>
+                                    <td>${element.vc_1}</td>
+                                    <td>${element.vc_1_date}</td>
+                                    <td>${element.vc_2}</td>
+                                    <td>${element.vc_2_date}</td>
+                                    <td>${element.vc_1_city}</td>
+                                    <td>${element.vc_2_city}</td>
+                                </tr>`
                     });
                 }else{
                     table +=  `<tr >

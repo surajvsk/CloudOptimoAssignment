@@ -77,12 +77,12 @@ module.exports = {
 
     logout: function (req, res) {
         if (typeof req.cookies.token == "undefined") {
-            res.redirect("/login")
+            res.redirect("/")
         } else {
           redisClient.client.get(req.cookies.token, async function (err, obj) {
             if (err) {
               console.error(err);
-              res.redirect("/login")
+              res.redirect("/")
             } else {
               res.clearCookie("token");
               redisClient.client.del(
@@ -90,11 +90,11 @@ module.exports = {
                 async function (err, result) {
                   if (err) {
                     console.error(err);
-                  res.redirect("/login")
+                  res.redirect("/")
                   } else {
                     let response = await result;
                     if (response == 1) {
-                        res.redirect("/login")
+                        res.redirect("/")
                     } else {
                       console.log("error in logout");
                     }

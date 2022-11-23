@@ -19,6 +19,7 @@ class RedisClient {
         return new Promise((resolve, reject) => {
             this._client.AUTH(REDIS_PASS, async function (err, result) {
                 if (err) {
+                    console.log('err::::::::::::::',err)
                     reject(err)
                 }else{
                     console.log('Connected to REDIS',result);

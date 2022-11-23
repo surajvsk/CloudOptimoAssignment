@@ -1,11 +1,12 @@
 const {
   redisClient
-} = require("../utils/redisClient");
+} = require("../Utils/RedisClient");
 exports.verify = function (req, res, next) {
   if (typeof req.cookies.token == "undefined") {
     res.redirect("/")
   } else {
-    redisClient.client.get(req.cookies.token, async function (err, obj) {
+    redisClient
+    .client.get(req.cookies.token, async function (err, obj) {
       if (err) {
         console.error(err);
         res.status(500).json({status:500,msg:"something went wrong...try again later"})
