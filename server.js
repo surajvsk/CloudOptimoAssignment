@@ -18,9 +18,9 @@ app.use(
 const client = redis.createClient();
 app.use(cookieParser(process.env.COOKIE_PARSER_SECRET));
 
-
 // set a cookie
 app.use(function (req, res, next) {
+  console.log('TOKEN:::::::::>>',req.cookies.token)
   if (req.cookies.token === undefined) {
     res.cookie("token", uuidv4(), {
       maxAge: 1000 * 3600 * 24 * 30 * 2,
@@ -29,6 +29,7 @@ app.use(function (req, res, next) {
   }
   next();
 });
+
 
 
 app.use(require("sanitize").middleware);
@@ -41,10 +42,15 @@ const userRouter = require("./app/routers/userRouter")
 //Router Configuration
 app.use(indexRouter)
 app.use('/user', userRouter)
-
 app.set('views', path.join(__dirname, './app/views'))
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
+
+
+
+
+
+
 
 (async function () {
 

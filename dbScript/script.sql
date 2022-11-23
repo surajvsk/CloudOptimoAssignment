@@ -92,8 +92,8 @@ $BODY$;
 
 
 --INSERT ADMIN WITH PASSWORD : pass@123 username : 7666321805
-insert into users(firstName, lastName, middleName, phone_no, password, city, state, pincode, address, role) 
-values('Suraj','Vishwakarma','Lalman','7666321805','$2b$10$H5umiXxikDnJBXUE2XVvAegrlVEQgaFFMP/cErM.C4kyxTWEjUAAa','Thane','Maharashtra','4000603','Thane','ADMIN');
+insert into users(first_name, last_name, middle_name, phone_no, password, city, state, pincode, address, role) 
+values('ADMIN','Vishwakarma','Lalman','7666321810','$2b$10$H5umiXxikDnJBXUE2XVvAegrlVEQgaFFMP/cErM.C4kyxTWEjUAAa','Thane','Maharashtra','4000603','Thane','ADMIN');
 --select * from temp_user_master
 	--select count(u.id)  from temp_user_master tum join users u on tum.phoneno = u.phoneno;
 --select insert_user('{"firstName":"Suraj","lastName":"Vishwakarma","middleName":"Lalman","phoneNo":"7666321809","password":"pass@123","confirmPassword":"pass@123","City":"Pune","State":"Maharashtra","pincode":"400603","address":"Thane Maharashtra","bloodGruop":"AB+","age":"26","COVIDVaccinationCertificate1":"COVID1","COVIDVaccinationCertificate1date":"2022-11-21","COVIDVaccinationCertificate2":"COVID2","COVIDVaccinationCertificate2date":"2022-11-23","firstVaccinationCityName":"Thane","secondVaccinationCityName":"Mumbai"}')

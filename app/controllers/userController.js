@@ -16,7 +16,18 @@ module.exports = {
     },
 
     adminDashboard: (req, res, next) => {
-        res.render('admin/index')
+        const {
+            _user
+        } = req.body
+
+        Users.findAllUsers(res.locals.user_id).then(result => {
+            console.log('result:::::::', result.rows)
+            res.render('admin/index', {
+                userinfo: result.rows,
+                _user: _user
+            })
+        })
+
     },
 
     userVaccination: (req, res, next) => {

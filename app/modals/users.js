@@ -38,4 +38,12 @@ module.exports = class Users {
     };
     return pool.query(statement);
   }
+
+  static findAllUsers(id) {
+    const statement = {
+      text: `select id, first_name, last_name, middle_name, phone_no, password, city, state, pincode, address, role from users where id not in ($1)`,
+      values: [id],
+    };
+    return pool.query(statement);
+  }
 }

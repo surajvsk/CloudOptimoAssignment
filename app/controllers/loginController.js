@@ -10,10 +10,10 @@ const saltRounds = 10;
 module.exports = {
 
     login: (req, res) => {
+        console.log('res::::::::::::::::::::', req)
+        let redisDb = req.app.locals.redisdb
+        let token = req.cookies.token;
         Users.findByuserName(req.body.username).then(dbresult => {
-            let redisDb = req.app.locals.redisdb
-            let token = req.cookies.token;
-            console.log('token:::::::::::::',token)
             if (dbresult.rows.length > 0) {
                 bcrypt.compare(req.body.password, dbresult.rows[0].password, function (err, result) {
                     if (result) {
@@ -26,7 +26,7 @@ module.exports = {
                         user.id = dbresult.rows[0].id;
                         user = JSON.stringify(user);
                    
-                        redisDb.set(
+                         redisDb.set(
                             token,
                             user,
                             async function (err, response) {
@@ -53,7 +53,7 @@ module.exports = {
                                 } else {
                                  res.json({
                                         status: 200,
-                                        redirect: "/admin/admin-dashboard"
+                                        redirect: "/user/admin-dashboard"
                                     })
                                 }
                             }
