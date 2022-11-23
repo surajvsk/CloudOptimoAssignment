@@ -1,25 +1,36 @@
-require("dotenv").config();
-const express = require("express");
-const path = require("path");
-const redis = require('redis');
-const app = express();
-const { v4: uuidv4 } = require("uuid");
-const cookieParser = require("cookie-parser");
+const express = require('express')
+const path = require('path')
+const app = express()
 const port = 5000
+const redis = require('redis');
+const cookieParser = require("cookie-parser");
+const {
+  v4: uuidv4
+} = require("uuid");
+const client = redis.createClient();
 
-app.use(express.json({ limit: "200mb" }));
+
+const indexRouter = require("./app/routers/indexRouter")
+const userRouter = require("./app/routers/userRouter")
+
+app.set('views', path.join(__dirname, './app/views'))
+app.use(express.static(path.join(__dirname, "public")));
+app.set('view engine', 'ejs')
+app.use(indexRouter)
+app.use('/user', userRouter)
+
+app.use(express.json({
+  limit: "200mb"
+}));
 app.use(
   express.urlencoded({
     extended: true,
-    limit: "200mb",
   })
 );
 
-const client = redis.createClient();
+app.use(require("sanitize").middleware);
 app.use(cookieParser(process.env.COOKIE_PARSER_SECRET));
-
-
-// set a cookie
+// // set a cookie
 app.use(function (req, res, next) {
   if (req.cookies.token === undefined) {
     res.cookie("token", uuidv4(), {
@@ -31,20 +42,11 @@ app.use(function (req, res, next) {
 });
 
 
-app.use(require("sanitize").middleware);
-
-//Routers
-const indexRouter = require("./app/routers/indexRouter")
-const userRouter = require("./app/routers/userRouter")
 
 
-//Router Configuration
-app.use(indexRouter)
-app.use('/user', userRouter)
 
-app.set('views', path.join(__dirname, './app/views'))
-app.use(express.static(path.join(__dirname, "public")));
-app.set("view engine", "ejs");
+
+
 
 (async function () {
 

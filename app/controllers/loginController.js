@@ -13,6 +13,7 @@ module.exports = {
         Users.findByuserName(req.body.username).then(dbresult => {
             let redisDb = req.app.locals.redisdb
             let token = req.cookies.token;
+            console.log('token:::::::::::::',token)
             if (dbresult.rows.length > 0) {
                 bcrypt.compare(req.body.password, dbresult.rows[0].password, function (err, result) {
                     if (result) {
@@ -24,10 +25,12 @@ module.exports = {
                         user.middle_name = dbresult.rows[0].middle_name;
                         user.id = dbresult.rows[0].id;
                         user = JSON.stringify(user);
+                   
                         redisDb.set(
                             token,
                             user,
                             async function (err, response) {
+                                console.log('response::::::::::::>>', response)
                                 if (err) {
                                     console.log('err::::::::::::>>', err)
                                     res.json({
@@ -39,16 +42,16 @@ module.exports = {
                         ).then(redisres => {
                             console.log('redisres', redisres)
                             if (redisres) {
-                                redisDb.expire(token, process.env.REDIS_TTL);
+                                //redisDb.expire(token, process.env.REDIS_TTL);
 
                                 console.log('SUCCESS LOGIN')
                                 if (dbresult.rows[0].role == "USER") {
-                                    return res.json({
+                                 res.json({
                                         status: 200,
                                         redirect: "/user/user-dashboard"
                                     })
                                 } else {
-                                    return res.json({
+                                 res.json({
                                         status: 200,
                                         redirect: "/admin/admin-dashboard"
                                     })
@@ -75,46 +78,42 @@ module.exports = {
     },
 
     logout: function (req, res) {
+        console.log('LOGOUT CALLL')
         let redisDb = req.app.locals.redisdb
         let token = req.cookies.token;
+        console.log('token::::::::::::', token)
+        console.log('redisDb::::::::::::', redisDb)
         if (typeof req.cookies.token == "undefined") {
-            res.status(500).json({
-                status: 500,
-                redirect: "/login"
-            })
+            res.clearCookie("token");
+        return   res.redirect("/")
         } else {
             redisDb.get(req.cookies.token, async function (err, obj) {
                 if (err) {
                     console.error(err);
-                    res.status(500).json({
-                        status: 500,
-                        redirect: "/login"
-                    })
+                    res.redirect("/")
                 }
             }).then(result => {
+                console.log('result::::::::>>>>><<<',result)
                 res.clearCookie("token");
                 redisDb.del(
                     req.cookies.token,
-                    async function (err, result) {
+                    async function (err, _result) {
                         if (err) {
                             console.error(err);
-                            res.status(500).json({
-                                status: 500,
-                                redirect: "/login"
-                            })
+                            res.redirect("/")
                         } else {
-                            let response = await result;
+                            let response = await _result;
                             if (response == 1) {
-                                res.status(500).json({
-                                    status: 500,
-                                    redirect: "/login"
-                                })
+                                res.redirect("/")
                             } else {
                                 console.log("error in logout");
                             }
                         }
                     }
-                );
+                ).then(deleted=>{
+                    res.clearCookie("token");
+                    res.redirect("/")
+                })
             });
         }
     },

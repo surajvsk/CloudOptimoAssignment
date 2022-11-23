@@ -6,20 +6,12 @@
     console.log('redisDb:::::::::::::::::>>',req.cookies.token)
 
     if (typeof req.cookies.token == "undefined") {
-      res.status(500).json({
-        status:500,
-        msg:"something went wrong...try again later",
-        redirect:"/"
-       })
+      res.redirect("/")
     } else {
       redisDb.get(req.cookies.token, async function (err, obj) {
         if (err) {
           console.error(err);
-       res.status(500).json({
-        status:500,
-        msg:"something went wrong...try again later",
-        redirect:"/"
-       })
+          res.redirect("/")
         } 
       }).then(redisResp=>{
         console.log("redisResp::::::::::::", redisResp)
@@ -34,7 +26,7 @@
           res.locals.user_id = response.id;
           next();
         } else {
-        res.json({status:500, redirect:'/'})
+     res.redirect("/")
         }
       });
     }
