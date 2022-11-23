@@ -34,7 +34,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="/user/user-dashboard">
+                <a class="nav-link" href="/user/admin-dashboard">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -42,16 +42,15 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
             <li class="nav-item">
-                <a class="nav-link" href="/user/user-dashboard">
+                <a class="nav-link rightMenuOpen" href="/user/admin-dashboard">
                     <i class="fas fa-fw fa-user"></i>
-                    <span>Profile Details</span></a>
+                    <span>Vaccination Report</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/user/user-vaccination">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Vaccination Details</span></a>
+                    <span>Blood Group Info</span></a>
             </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -59,30 +58,23 @@
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-
-
         </ul>
+        
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
             <!-- Main Content -->
             <div id="content">
-
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
                         <div class="topbar-divider d-none d-sm-block"></div>
-
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -102,7 +94,6 @@
                     </ul>
                 </nav>
                 <!-- End of Topbar -->
-
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Page Heading -->
@@ -117,11 +108,52 @@
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Get Report Details</h6>
-
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
 
+                                    <div class="form-group row">
+                                        <div class="col-sm-3 mb-3 mb-sm-0">
+                                            <label>Select City</label>
+                                            <select name="City" id="City" class="form-control rounded-0">
+                                                <option value="">Choose City</option>
+                                                <option value="Pune">Pune</option>
+                                                <option value="Nasik">Nasik</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-3 mb-3 mb-sm-0">
+                                            <label>Select State</label>
+                                            <select name="State" id="State" class="form-control rounded-0">
+                                                <option value="">Choose State</option>
+                                                <option value="Maharashtra">Maharashtra</option>
+                                                <option value="Karnataka">Karnataka</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-2 mb-3 mb-sm-0">
+                                            <label>Select Date</label>
+                                            <select name="State" id="State" class="form-control rounded-0">
+                                                <option value="">Choose State</option>
+                                                <option value="Maharashtra">Maharashtra</option>
+                                                <option value="Karnataka">Karnataka</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-2 mb-3 mb-sm-0">
+                                            <label>Select Month</label>
+                                            <select name="State" id="State" class="form-control rounded-0">
+                                                <option value="">Choose State</option>
+                                                <option value="Maharashtra">Maharashtra</option>
+                                                <option value="Karnataka">Karnataka</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-2 mb-3 mb-sm-0">
+                                            <label>Select Year</label>
+                                            <select name="State" id="State" class="form-control rounded-0">
+                                                <option value="">Choose State</option>
+                                                <option value="Maharashtra">Maharashtra</option>
+                                                <option value="Karnataka">Karnataka</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
@@ -148,9 +180,7 @@
                                                 <th>Address</th>
                                             </tr>
                                         </tfoot>
-                                        
                                         <tbody>
-                                            
                                                 <% for(let user of userinfo){%>
                                                     <tr>
                                                     <td><%- user.first_name%></td>
@@ -169,11 +199,9 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
 
@@ -222,6 +250,14 @@
 
     <!-- Page level custom scripts -->
     <script src="/js/demo/datatables-demo.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $(".rightMenuOpen").on('click',function(){
+                console.log('OPEN RIGHT MENU')
+            })
+        })
+    </script>
 
 </body>
 
