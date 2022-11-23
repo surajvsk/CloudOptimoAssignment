@@ -3,6 +3,8 @@ const {
 } = require('express-validator')
 
 const Users = require('../modals/Users')
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 module.exports = {
 
     loginPage: (req, res, next) => {
@@ -29,17 +31,36 @@ module.exports = {
         }
 
 
-        let user_array = []
-        user_array.push(req.body)
-        console.log('req:::::::::::', user_array)
-        Users.insertUsers(user_array).then(result => {
-            console.log('result:::::::::::::',result.rows[0].insert_user)
+        const hashpass = bcrypt.hashSync(req.body.confirmPassword, saltRounds);
+        let data = {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            middleName: req.body.middleName,
+            phoneNo: req.body.phoneNo,
+            password: hashpass,
+            City: req.body.City,
+            State: req.body.State,
+            pincode: req.body.pincode,
+            address: req.body.address,
+            bloodGruop: req.body.bloodGruop,
+            age: req.body.age,
+            COVIDVaccinationCertificate1: req.body.COVIDVaccinationCertificate1,
+            COVIDVaccinationCertificate1date: req.body.COVIDVaccinationCertificate1date,
+            COVIDVaccinationCertificate2: req.body.COVIDVaccinationCertificate2,
+            COVIDVaccinationCertificate2date: req.body.COVIDVaccinationCertificate2date,
+            firstVaccinationCityName: req.body.firstVaccinationCityName,
+            secondVaccinationCityName: req.body.secondVaccinationCityName
+        }
+        Users.insertUsers(data).then(result => {
             res.json({
                 status: 200,
                 data: result.rows[0].insert_user
             })
         }).catch(error => {
-            console.log('error:::::::::::::',error)
+            res.json({
+                status: 500,
+                data: error
+            })
         })
 
 
