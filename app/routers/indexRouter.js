@@ -11,4 +11,5 @@ router.get('/login', indexController.dashboard)
 router.get('/sign-up', indexController.signUpPage)
 router.post('/register-user', validate('userInfoValidate'),  indexController.registerUser)
 router.post('/login', loginController.login)
+router.get('/logout', loginController.logout);
 module.exports = router;

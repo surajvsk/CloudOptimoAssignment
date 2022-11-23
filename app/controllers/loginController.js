@@ -28,27 +28,27 @@ module.exports = {
                             token,
                             user,
                             async function (err, response) {
-                                if (err) {     
-                                    console.log('err::::::::::::>>',err)                           
+                                if (err) {
+                                    console.log('err::::::::::::>>', err)
                                     res.json({
                                         status: 500,
                                         msg: "something went wrong...try again later"
                                     })
                                 }
                             }
-                        ).then(redisres=>{
-                            console.log('redisres',redisres)
-                            if(redisres){
+                        ).then(redisres => {
+                            console.log('redisres', redisres)
+                            if (redisres) {
                                 redisDb.expire(token, process.env.REDIS_TTL);
-                             
+
                                 console.log('SUCCESS LOGIN')
                                 if (dbresult.rows[0].role == "USER") {
-                                    return  res.json({
+                                    return res.json({
                                         status: 200,
                                         redirect: "/user/user-dashboard"
                                     })
                                 } else {
-                                  return  res.json({
+                                    return res.json({
                                         status: 200,
                                         redirect: "/admin/admin-dashboard"
                                     })
@@ -78,32 +78,44 @@ module.exports = {
         let redisDb = req.app.locals.redisdb
         let token = req.cookies.token;
         if (typeof req.cookies.token == "undefined") {
-          res.status(500).json({status:500, redirect:"/login"})
+            res.status(500).json({
+                status: 500,
+                redirect: "/login"
+            })
         } else {
             redisDb.get(req.cookies.token, async function (err, obj) {
-            if (err) {
-              console.error(err);
-              res.status(500).json({status:500, redirect:"/login"})
-            }
-          }).then(result=>{
-            res.clearCookie("token");
-            redisDb.del(
-              req.cookies.token,
-              async function (err, result) {
                 if (err) {
-                  console.error(err);
-                  res.status(500).json({status:500, redirect:"/login"})
-                } else {
-                  let response = await result;
-                  if (response == 1) {
-                      res.status(500).json({status:500, redirect:"/login"})
-                  } else {
-                    console.log("error in logout");
-                  }
+                    console.error(err);
+                    res.status(500).json({
+                        status: 500,
+                        redirect: "/login"
+                    })
                 }
-              }
-            );
-          });
+            }).then(result => {
+                res.clearCookie("token");
+                redisDb.del(
+                    req.cookies.token,
+                    async function (err, result) {
+                        if (err) {
+                            console.error(err);
+                            res.status(500).json({
+                                status: 500,
+                                redirect: "/login"
+                            })
+                        } else {
+                            let response = await result;
+                            if (response == 1) {
+                                res.status(500).json({
+                                    status: 500,
+                                    redirect: "/login"
+                                })
+                            } else {
+                                console.log("error in logout");
+                            }
+                        }
+                    }
+                );
+            });
         }
-      },
+    },
 }
