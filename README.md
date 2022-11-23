@@ -17,4 +17,6 @@ http://localhost:5000/ --- For Opening Home Page
 for creating user or registering new user use below mapping
 http://localhost:5000/sign-up
 
+IN Script Folder DbBackup is also present you can restore and use it.
+
 
